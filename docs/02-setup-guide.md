@@ -4,37 +4,37 @@
 
 ## 目次
 
-1. [Windowsユーザー向け: WSLのセットアップ](#windowsユーザー向け-wslのセットアップ)
-2. [GitとGitHubの基本](#gitとgithubの基本)
+1. [Windows ユーザー向け: WSL のセットアップ](#windowsユーザー向け-wslのセットアップ)
+2. [Git と GitHub の基本](#gitとgithubの基本)
 3. [リポジトリのクローン](#リポジトリのクローン)
-4. [Node.jsとnpmの準備](#nodejsとnpmの準備)
+4. [Node.js と npm の準備](#nodejsとnpmの準備)
 5. [依存パッケージのインストール](#依存パッケージのインストール)
 
-## Windowsユーザー向け: WSLのセットアップ
+## Windows ユーザー向け: WSL のセットアップ
 
-WSL（Windows Subsystem for Linux）は、Windows上でLinux環境を利用できるようにする機能です。ウェブ開発では多くのツールがLinux環境を前提としているため、WSLを使うとトラブルが少なくなります。
+WSL（Windows Subsystem for Linux）は、Windows 上で Linux 環境を利用できるようにする機能です。ウェブ開発では多くのツールが Linux 環境を前提としているため、WSL を使うとトラブルが少なくなります。
 
-### WSLのインストール手順
+### WSL のインストール手順
 
 - [公式ドキュメント](https://learn.microsoft.com/ja-jp/windows/wsl/install)
-- 「Ubuntu」アプリを開くことでLinuxターミナルを使えるようになります。
+- 「Ubuntu」アプリを開くことで Linux ターミナルを使えるようになります。
 
-## GitとGitHubの基本
+## Git と GitHub の基本
 
-### GitとGitHubの違い
+### Git と GitHub の違い
 
-初心者の方のために、GitとGitHubの違いを簡単に説明します：
+初心者の方のために、Git と GitHub の違いを簡単に説明します：
 
-#### Gitとは？
+#### Git とは？
 
 - ローカル（あなたのパソコン）で動作するバージョン管理ツール
 - コードの変更履歴を記録・管理する
 - コマンドラインで操作する
 - パソコンにインストールして使う
 
-#### GitHubとは？
+#### GitHub とは？
 
-- Gitで管理したコードをクラウド上に保存・共有できるサービス
+- Git で管理したコードをクラウド上に保存・共有できるサービス
 - ウェブブラウザで操作できる
 - チーム開発がしやすい
 - コードのバックアップとしても使える
@@ -43,28 +43,67 @@ WSL（Windows Subsystem for Linux）は、Windows上でLinux環境を利用で�
 簡単に言うと：
 
 - Git = コードの変更履歴を管理するツール
-- GitHub = Gitで管理したコードを保存・共有するためのクラウドサービス
+- GitHub = Git で管理したコードを保存・共有するためのクラウドサービス
 
-### GitHubのアカウント作成
+### GitHub のアカウント作成
 
 1. [GitHub](https://github.com/)にアクセス
 2. 「Sign up」をクリック
 3. メールアドレス、パスワード、ユーザー名を入力
 4. メール認証を完了
 
-### Gitのインストール
+### SSH キーの設定
+
+GitHub でリポジトリをクローンするには、SSH キーの設定が必要です。以下の手順で設定しましょう：
+
+1. **SSH キーの生成**
+
+```bash
+# SSHキーを生成
+ssh-keygen -t ed25519 -C "あなたのメールアドレス"
+
+# キーの保存場所を確認（デフォルトのままEnterを押す）
+# パスフレーズの設定（任意）
+```
+
+2. **SSH キーの確認**
+
+```bash
+# 公開キーの内容を表示
+cat ~/.ssh/id_ed25519.pub
+```
+
+3. **GitHub に SSH キーを登録**
+
+- GitHub の右上のプロフィールアイコン → Settings
+- 左サイドバーの「SSH and GPG keys」
+- 「New SSH key」をクリック
+- Title: 識別しやすい名前（例：My Laptop）
+- Key: 先ほど表示した公開キーの内容をコピー＆ペースト
+- 「Add SSH key」をクリック
+
+4. **接続テスト**
+
+```bash
+# GitHubとの接続をテスト
+ssh -T git@github.com
+```
+
+「Hi username! You've successfully authenticated...」と表示されれば成功です！
+
+### Git のインストール
 
 #### Windows（WSL）の場合
 
-WSL上のUbuntuには、通常Gitが最初からインストールされています。確認するには：
+WSL 上の Ubuntu には、通常 Git が最初からインストールされています。確認するには：
 
 ```bash
 git --version
 ```
 
-#### macOSの場合
+#### macOS の場合
 
-macOSには、通常Gitが最初からインストールされています。確認するには：
+macOS には、通常 Git が最初からインストールされています。確認するには：
 
 ターミナルで以下のコマンドを実行：
 
@@ -72,12 +111,12 @@ macOSには、通常Gitが最初からインストールされています。確
 git --version
 ```
 
-もしインストールされていなければ、Gitのインストーラが自動的に表示されます。
+もしインストールされていなければ、Git のインストーラが自動的に表示されます。
 
-### Gitの基本設定
+### Git の基本設定
 
-Gitをインストールしたら、まず自分の情報を設定します：
-ここでのメールアドレス、名前はGitHubに登録してあるユーザー名とメールアドレスを推奨します。
+Git をインストールしたら、まず自分の情報を設定します：
+ここでのメールアドレス、名前は GitHub に登録してあるユーザー名とメールアドレスを推奨します。
 
 ```bash
 git config --global user.name "あなたの名前"
@@ -86,11 +125,11 @@ git config --global user.email "あなたのメールアドレス"
 
 ## リポジトリのクローン
 
-リポジトリのクローンとは、Gitで管理されているプロジェクトをあなたのパソコンにコピーすることです。
+リポジトリのクローンとは、Git で管理されているプロジェクトをあなたのパソコンにコピーすることです。
 
 ### クローンの手順
 
-1. **ターミナル（コマンドプロンプト、WSLのUbuntuなど）を開く**
+1. **ターミナル（コマンドプロンプト、WSL の Ubuntu など）を開く**
 
 2. **作業フォルダに移動する**
    ファイルを保存したい場所に移動します：
@@ -101,26 +140,26 @@ git config --global user.email "あなたのメールアドレス"
    git clone https://github.com/ユーザー名/labo-hp.git
    ```
 
-   ※実際のURLはプロジェクト管理者に確認してください。
+   ※実際の URL はプロジェクト管理者に確認してください。
 
 4. **プロジェクトフォルダに移動する**
    ```bash
    cd labo-hp
    ```
 
-## Node.jsとnpmの準備
+## Node.js と npm の準備
 
-### Node.jsとは？
+### Node.js とは？
 
-Node.jsは、JavaScriptをブラウザ以外の環境（パソコン上など）で動かすためのソフトウェアです。npmは「Node Package Manager」の略で、JavaScriptのライブラリやツールをインストールするために使います。
+Node.js は、JavaScript をブラウザ以外の環境（パソコン上など）で動かすためのソフトウェアです。npm は「Node Package Manager」の略で、JavaScript のライブラリやツールをインストールするために使います。
 
-### Node.jsのインストール
+### Node.js のインストール
 
 #### Windows（WSL）の場合
 
-nodebrewを使ってNode.jsをインストールします：
+nodebrew を使って Node.js をインストールします：
 
-1. **Homebrewのインストール**
+1. **Homebrew のインストール**
 
 ```bash
 # Homebrewのインストール
@@ -131,14 +170,14 @@ echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> ~/.bashrc
 source ~/.bashrc
 ```
 
-2. **nodebrewのインストール**
+2. **nodebrew のインストール**
 
 ```bash
 # Homebrewを使ってnodebrewをインストール
 brew install nodebrew
 ```
 
-3. **Node.jsのインストール**
+3. **Node.js のインストール**
 
 ```bash
 # 最新のLTS版をインストール
@@ -148,11 +187,11 @@ nodebrew install-binary stable
 nodebrew use stable
 ```
 
-#### macOSの場合
+#### macOS の場合
 
-Homebrewを使ってNode.jsをインストールします：
+Homebrew を使って Node.js をインストールします：
 
-1. **Homebrewのインストール**
+1. **Homebrew のインストール**
 
 ```bash
 # Homebrewのインストール
@@ -163,14 +202,14 @@ echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zshrc
 source ~/.zshrc
 ```
 
-2. **nodebrewのインストール**
+2. **nodebrew のインストール**
 
 ```bash
 # Homebrewを使ってnodebrewをインストール
 brew install nodebrew
 ```
 
-3. **Node.jsのインストール**
+3. **Node.js のインストール**
 
 ```bash
 # 最新のLTS版をインストール
@@ -182,7 +221,7 @@ nodebrew use stable
 
 ### バージョン確認
 
-Node.jsとnpmが正しくインストールされたか確認します：
+Node.js と npm が正しくインストールされたか確認します：
 
 ```bash
 node -v
