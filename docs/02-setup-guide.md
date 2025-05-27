@@ -177,6 +177,31 @@ source ~/.bashrc
 brew install nodebrew
 ```
 
+```bash
+# nodebrewのセットアップコマンドを起動
+nodebrew setup
+
+# 下記実行ログ
+Fetching nodebrew...
+Installed nodebrew in $HOME/.nodebrew
+
+========================================
+Export a path to nodebrew:
+
+export PATH=$HOME/.nodebrew/current/bin:$PATH
+========================================
+```
+
+```bash
+# 上記記載通りにPATHを追加
+echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bashrc
+```
+
+```bash
+# 設定を即座に反映
+source ~/.bashrc
+```
+
 3. **Node.js のインストール**
 
 ```bash
@@ -225,10 +250,14 @@ export PATH=$HOME/.nodebrew/current/bin:$PATH
 ```
 
 ```bash
-# 上記記載通りにPATHを追加
-echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.bashrc
+# 上記記載通りにPATHを追加（macOSではzshrcに追加）
+echo 'export PATH=$HOME/.nodebrew/current/bin:$PATH' >> ~/.zshrc
 ```
 
+```bash
+# 設定を即座に反映
+source ~/.zshrc
+```
 
 3. **Node.js のインストール**
 
